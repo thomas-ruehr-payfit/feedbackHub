@@ -31,6 +31,7 @@ function setCommentMode(on) {
   frame.style.pointerEvents = on ? 'none' : '';
   document.getElementById('toolbar').classList.toggle('comment-active', on);
   document.getElementById('frame-wrap').classList.toggle('comment-active', on);
+  document.body.classList.toggle('comment-active', on);
   if (!on) closeOpenCard();
 }
 
