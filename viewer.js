@@ -24,14 +24,17 @@ function showError(msg) {
 }
 
 // ── Comment mode toggle ───────────────────────────────────
-btnComment.addEventListener('click', () => {
-  commentMode = !commentMode;
-  btnComment.setAttribute('aria-pressed', String(commentMode));
-  overlay.classList.toggle('active', commentMode);
-  // Disable iframe pointer events so the overlay can capture clicks
-  frame.style.pointerEvents = commentMode ? 'none' : '';
-  if (!commentMode) closeOpenCard();
-});
+function setCommentMode(on) {
+  commentMode = on;
+  btnComment.setAttribute('aria-pressed', String(on));
+  overlay.classList.toggle('active', on);
+  frame.style.pointerEvents = on ? 'none' : '';
+  document.getElementById('toolbar').classList.toggle('comment-active', on);
+  document.getElementById('frame-wrap').classList.toggle('comment-active', on);
+  if (!on) closeOpenCard();
+}
+
+btnComment.addEventListener('click', () => setCommentMode(!commentMode));
 
 // ── Load prototype metadata ───────────────────────────────
 async function loadPrototype() {
@@ -342,13 +345,14 @@ function updatePathDisplay() {
 
 // ── Escape closes card ────────────────────────────────────
 document.addEventListener('keydown', (e) => {
+  const inField = e.target.matches('input, textarea, [contenteditable]');
+  if (e.key === 'c' && !inField && !e.metaKey && !e.ctrlKey) {
+    setCommentMode(!commentMode);
+    return;
+  }
   if (e.key === 'Escape') {
     if (openCardId) { closeOpenCard(); return; }
-    if (commentMode) {
-      commentMode = false;
-      btnComment.setAttribute('aria-pressed', 'false');
-      overlay.classList.remove('active');
-    }
+    if (commentMode) setCommentMode(false);
   }
 });
 

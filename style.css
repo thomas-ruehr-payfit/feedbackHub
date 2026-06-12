@@ -158,6 +158,26 @@ input, textarea { font: inherit; }
   flex: 1; text-align: center;
 }
 
+/* ── Comment mode active state ───────────────────────────── */
+.toolbar.comment-active {
+  background: #000;
+  border-bottom-color: #000;
+}
+.toolbar.comment-active .toolbar-back,
+.toolbar.comment-active .toolbar-title { color: #fff; }
+.toolbar.comment-active .toolbar-path {
+  background: #222; border-color: #444; color: #aaa;
+}
+.toolbar.comment-active .btn-comment {
+  background: #fff; color: #000; border-color: #fff;
+}
+.toolbar.comment-active .btn-comment .comment-dot { background: #000; }
+
+.viewer-frame-wrap.comment-active {
+  outline: 3px solid #000;
+  outline-offset: -3px;
+}
+
 .toolbar-path {
   font-size: 11px; color: var(--text-muted);
   font-family: ui-monospace, monospace;
