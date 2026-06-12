@@ -309,7 +309,10 @@ function closeOpenCard() {
 function removeTempPin() {
   overlay.querySelector('.pin[data-temp]')?.remove();
   overlay.querySelector('.comment-card[data-temp]')?.remove();
-  if (openCardId === 'new') openCardId = null;
+  if (openCardId === 'new') {
+    openCardId = null;
+    overlay.classList.remove('card-open');
+  }
 }
 
 // Close card when clicking outside
