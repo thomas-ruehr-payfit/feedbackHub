@@ -26,6 +26,7 @@ let projects        = [];
 let prototypes      = [];
 let commentCounts   = {};
 let currentProjectId = null;
+let expandedProjectIds = new Set();
 
 // ── Helpers ───────────────────────────────────────────────
 function showError(msg) {
@@ -292,7 +293,8 @@ function openMoveModal(proto) {
 // ── Project section ───────────────────────────────────────
 function buildProjectSection(project, protos) {
   const section = document.createElement('div');
-  section.className = 'project-section collapsed';
+  const isExpanded = expandedProjectIds.has(project.id);
+  section.className = 'project-section' + (isExpanded ? '' : ' collapsed');
   section.dataset.id = project.id;
 
   const header = document.createElement('div');
@@ -300,11 +302,11 @@ function buildProjectSection(project, protos) {
 
   const toggle = document.createElement('button');
   toggle.className = 'project-toggle';
-  toggle.setAttribute('aria-expanded', 'false');
+  toggle.setAttribute('aria-expanded', String(isExpanded));
 
   const toggleIcon = document.createElement('span');
   toggleIcon.className = 'project-toggle-icon';
-  toggleIcon.textContent = '+';
+  toggleIcon.textContent = isExpanded ? '−' : '+';
 
   const nameSpan = document.createElement('span');
   nameSpan.className = 'project-toggle-name';
@@ -316,6 +318,8 @@ function buildProjectSection(project, protos) {
     const collapsed = section.classList.toggle('collapsed');
     toggleIcon.textContent = collapsed ? '+' : '−';
     toggle.setAttribute('aria-expanded', String(!collapsed));
+    if (collapsed) expandedProjectIds.delete(project.id);
+    else expandedProjectIds.add(project.id);
   });
 
   header.appendChild(toggle);
@@ -466,6 +470,7 @@ formNew.addEventListener('submit', async (e) => {
   }
 
   prototypes.unshift(data);
+  if (projectId) expandedProjectIds.add(projectId);
   closeModal();
   render();
 });
