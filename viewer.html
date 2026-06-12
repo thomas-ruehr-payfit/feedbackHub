@@ -12,15 +12,15 @@
     <div class="toolbar" id="toolbar">
       <a href="index.html" class="toolbar-back">← All prototypes</a>
       <span class="toolbar-title" id="toolbar-title">Loading…</span>
-      <span class="toolbar-path" id="toolbar-path">/</span>
       <div class="comment-toggle-wrap">
-        <kbd class="shortcut-key">C</kbd>
         <button class="comment-toggle" id="btn-comment" aria-pressed="false" aria-label="Toggle comment mode">
           <span class="toggle-label">Comment</span>
           <span class="toggle-track"><span class="toggle-thumb"></span></span>
         </button>
       </div>
     </div>
+
+    <div class="tracker-warning hidden" id="tracker-warning">Tracker missing — comments won't track internal navigation</div>
 
     <div class="viewer-frame-wrap" id="frame-wrap">
       <iframe id="prototype-frame" title="Prototype" allowfullscreen></iframe>

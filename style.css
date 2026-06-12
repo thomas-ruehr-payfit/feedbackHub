@@ -38,21 +38,9 @@ input, textarea { font: inherit; }
 .btn-ghost:hover    { background: var(--bg); color: var(--text); }
 .btn-danger   { background: transparent; color: var(--danger); border: 1px solid transparent; }
 .btn-danger:hover   { background: #fef2f2; }
-/* ── Comment toggle wrap + shortcut key ─────────────────── */
+/* ── Comment toggle wrap ─────────────────────────────────── */
 .comment-toggle-wrap {
   display: flex; align-items: center; gap: 6px; flex-shrink: 0;
-}
-.shortcut-key {
-  font: 500 10px/1 ui-monospace, monospace;
-  color: var(--text-muted);
-  background: var(--bg); border: 1px solid var(--border);
-  border-bottom-width: 2px;
-  border-radius: 4px; padding: 2px 5px;
-  pointer-events: none; user-select: none;
-  transition: color 0.2s, background 0.2s, border-color 0.2s;
-}
-.toolbar.comment-active .shortcut-key {
-  color: #aaa; background: #222; border-color: #444;
 }
 
 /* ── Comment toggle switch ───────────────────────────────── */
@@ -194,9 +182,6 @@ body.comment-active { background: #000; }
 .toolbar.comment-active .toolbar-back,
 .toolbar.comment-active .toolbar-title { color: #fff; opacity: 0.5; }
 .toolbar.comment-active #toolbar-title { opacity: 1; }
-.toolbar.comment-active .toolbar-path {
-  background: #222; border-color: #444; color: #aaa;
-}
 .toolbar.comment-active .toggle-label { color: #fff; }
 .toolbar.comment-active .toggle-track { background: #fff; }
 .toolbar.comment-active .toggle-thumb { background: #000; }
@@ -213,13 +198,10 @@ body.comment-active { background: #000; }
   transition: border-width 0.25s ease, border-radius 0.25s ease;
 }
 
-.toolbar-path {
-  font-size: 11px; color: var(--text-muted);
-  font-family: ui-monospace, monospace;
-  background: var(--bg); border: 1px solid var(--border);
-  border-radius: 4px; padding: 2px 7px;
-  max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  flex-shrink: 0;
+.tracker-warning {
+  background: #fefce8; border-bottom: 1px solid #fde68a;
+  color: #92400e; font-size: 12px;
+  padding: 6px 14px; flex-shrink: 0;
 }
 
 .viewer-frame-wrap {

@@ -323,19 +323,34 @@ function updateIframeScale() {
 window.addEventListener('resize', () => { updateIframeScale(); renderPins(); });
 updateIframeScale();
 
+// ── Tracker detection ─────────────────────────────────────
+let trackerDetected = false;
+const trackerWarning = document.getElementById('tracker-warning');
+
+frame.addEventListener('load', () => {
+  // Same-origin: path tracking works via load events, no tracker needed
+  try {
+    frame.contentWindow.location.href;
+    trackerDetected = true;
+    return;
+  } catch { /* cross-origin */ }
+
+  // Cross-origin: wait briefly for tracker's initial routeChange message
+  setTimeout(() => {
+    if (!trackerDetected) trackerWarning.classList.remove('hidden');
+  }, 2000);
+});
+
 // ── iframe load → path tracking (full-page navigations) ──
 frame.addEventListener('load', async () => {
   let newPath = '/';
   try {
-    // Works when the prototype is same-origin
     newPath = frame.contentWindow.location.pathname + frame.contentWindow.location.hash;
   } catch {
-    // Cross-origin: can't read URL — postMessage snippet required for SPAs
     return;
   }
   if (newPath !== currentPath) {
     currentPath = newPath;
-    updatePathDisplay();
     closeOpenCard();
     await loadComments();
   }
@@ -344,17 +359,13 @@ frame.addEventListener('load', async () => {
 // ── postMessage for per-page tracking (cross-origin SPAs) ─
 window.addEventListener('message', async (e) => {
   if (e.data?.type === 'routeChange' && e.data.path) {
+    trackerDetected = true;
+    trackerWarning.classList.add('hidden');
     currentPath = e.data.path;
-    updatePathDisplay();
     closeOpenCard();
     await loadComments();
   }
 });
-
-function updatePathDisplay() {
-  const el = document.getElementById('toolbar-path');
-  if (el) el.textContent = currentPath;
-}
 
 // ── Escape closes card ────────────────────────────────────
 document.addEventListener('keydown', (e) => {
