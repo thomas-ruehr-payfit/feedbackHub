@@ -188,6 +188,31 @@ input, textarea { font: inherit; }
   flex: 1; text-align: center;
 }
 
+/* ── Copy link button ────────────────────────────────────── */
+.toolbar-copy-wrap {
+  position: relative; display: flex; align-items: center; flex-shrink: 0;
+}
+.toolbar-icon-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; border-radius: var(--radius);
+  color: var(--text-muted); transition: color .15s, background .15s;
+}
+.toolbar-icon-btn:hover { color: var(--text); background: var(--bg); }
+.copy-tooltip {
+  position: absolute;
+  bottom: calc(100% + 6px); left: 50%;
+  transform: translateX(-50%);
+  background: #4b4b4b; color: #fff;
+  font-size: 11px; font-weight: 500;
+  padding: 4px 8px; border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0; pointer-events: none;
+  transition: opacity .15s;
+}
+.copy-tooltip.visible { opacity: 1; }
+.toolbar.comment-active .toolbar-icon-btn { color: rgba(255,255,255,.5); }
+.toolbar.comment-active .toolbar-icon-btn:hover { color: #fff; background: rgba(255,255,255,.1); }
+
 /* ── Comment mode active state ───────────────────────────── */
 body.comment-active { background: #000; }
 .toolbar.comment-active {

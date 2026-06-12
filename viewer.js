@@ -6,6 +6,15 @@ const toolbarTitle = document.getElementById('toolbar-title');
 const btnComment = document.getElementById('btn-comment');
 const errorBanner = document.getElementById('error-banner');
 
+const btnCopyLink = document.getElementById('btn-copy-link');
+const copyTooltip = document.getElementById('copy-tooltip');
+
+btnCopyLink.addEventListener('click', () => {
+  navigator.clipboard.writeText(location.href);
+  copyTooltip.classList.add('visible');
+  setTimeout(() => copyTooltip.classList.remove('visible'), 1500);
+});
+
 const params = new URLSearchParams(location.search);
 const prototypeId = params.get('id');
 
