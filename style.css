@@ -317,7 +317,7 @@ body.comment-active { background: #000; }
 /* ── Project sections ────────────────────────────────────── */
 .project-section {
   background: var(--bg); border-radius: var(--radius-lg);
-  padding: 0; overflow: hidden;
+  padding: 0;
   margin-bottom: 12px;
 }
 
