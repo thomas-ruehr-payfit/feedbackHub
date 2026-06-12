@@ -238,15 +238,9 @@ function buildProjectSection(project, protos) {
   toggle.className = 'project-toggle';
   toggle.setAttribute('aria-expanded', 'true');
 
-  const arrow = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  arrow.setAttribute('class', 'project-toggle-arrow');
-  arrow.setAttribute('viewBox', '0 0 24 24');
-  arrow.setAttribute('fill', 'none');
-  arrow.setAttribute('stroke', 'currentColor');
-  arrow.setAttribute('stroke-width', '2.5');
-  arrow.setAttribute('stroke-linecap', 'round');
-  arrow.setAttribute('stroke-linejoin', 'round');
-  arrow.innerHTML = '<polyline points="6 9 12 15 18 9"/>';
+  const toggleIcon = document.createElement('span');
+  toggleIcon.className = 'project-toggle-icon';
+  toggleIcon.textContent = '−';
 
   const nameSpan = document.createElement('span');
   nameSpan.className = 'project-toggle-name';
@@ -256,11 +250,12 @@ function buildProjectSection(project, protos) {
   countSpan.className = 'project-proto-count';
   countSpan.textContent = protos.length;
 
-  toggle.appendChild(arrow);
+  toggle.appendChild(toggleIcon);
   toggle.appendChild(nameSpan);
   toggle.appendChild(countSpan);
   toggle.addEventListener('click', () => {
     const collapsed = section.classList.toggle('collapsed');
+    toggleIcon.textContent = collapsed ? '+' : '−';
     toggle.setAttribute('aria-expanded', String(!collapsed));
   });
 
