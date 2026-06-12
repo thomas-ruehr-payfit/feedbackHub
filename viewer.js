@@ -10,6 +10,7 @@ const params = new URLSearchParams(location.search);
 const prototypeId = params.get('id');
 
 let commentMode = false;
+let prototypeName = '';
 let currentPath = '/';
 let comments = [];
 let openCardId = null; // null = none open, 'new' = temp pin open
@@ -32,6 +33,9 @@ function setCommentMode(on) {
   document.getElementById('toolbar').classList.toggle('comment-active', on);
   document.getElementById('frame-wrap').classList.toggle('comment-active', on);
   document.body.classList.toggle('comment-active', on);
+  toolbarTitle.innerHTML = on
+    ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="margin-right:5px;vertical-align:-1px" aria-hidden="true"><path d="M18 8h-1V6A5 5 0 0 0 7 6v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zm-6 9a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm3.1-9H8.9V6a3.1 3.1 0 0 1 6.2 0v2z"/></svg>Page locked`
+    : prototypeName;
   if (!on) closeOpenCard();
 }
 
@@ -52,6 +56,7 @@ async function loadPrototype() {
   }
 
   document.title = data.name + ' — Viewer';
+  prototypeName = data.name;
   toolbarTitle.textContent = data.name;
   frame.src = data.url;
 }
