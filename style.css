@@ -175,6 +175,7 @@ input, textarea { font: inherit; }
 
 .viewer-frame-wrap.comment-active {
   border-radius: 16px;
+  background: #000;
 }
 
 .viewer-frame-wrap.comment-active::after {
@@ -194,7 +195,8 @@ input, textarea { font: inherit; }
 .viewer-frame-wrap {
   flex: 1; position: relative; overflow: hidden;
   border-radius: 0;
-  transition: border-radius 0.25s ease;
+  background: transparent;
+  transition: border-radius 0.25s ease, background 0.25s ease;
 }
 
 .viewer-frame-wrap::after {
