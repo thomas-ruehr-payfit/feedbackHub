@@ -213,6 +213,10 @@ function buildCard(proto) {
       }),
     },
     {
+      label: 'Move to…',
+      action: () => openMoveModal(proto),
+    },
+    {
       label: 'Remove', danger: true,
       action: async () => {
         if (!confirm('Remove this prototype and all its comments?')) return;
@@ -227,6 +231,62 @@ function buildCard(proto) {
   card.appendChild(cardRight);
 
   return card;
+}
+
+// ── Move prototype ────────────────────────────────────────
+async function movePrototype(proto, targetProjectId) {
+  const { error } = await supabase
+    .from('prototypes').update({ project_id: targetProjectId }).eq('id', proto.id);
+  if (error) { showError('Could not move: ' + error.message); return; }
+  proto.project_id = targetProjectId;
+  render();
+}
+
+function openMoveModal(proto) {
+  const backdrop = document.createElement('div');
+  backdrop.className = 'modal-backdrop';
+
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+
+  const title = document.createElement('h2');
+  title.textContent = 'Move to project';
+  modal.appendChild(title);
+
+  const list = document.createElement('div');
+  list.className = 'move-project-list';
+
+  projects.forEach(p => {
+    const isCurrent = proto.project_id === p.id;
+    const btn = document.createElement('button');
+    btn.className = 'move-project-item' + (isCurrent ? ' current' : '');
+    btn.textContent = p.name;
+    btn.disabled = isCurrent;
+    btn.addEventListener('click', () => {
+      document.body.removeChild(backdrop);
+      movePrototype(proto, p.id);
+    });
+    list.appendChild(btn);
+  });
+
+  modal.appendChild(list);
+
+  const actions = document.createElement('div');
+  actions.className = 'form-actions';
+  const cancelBtn = document.createElement('button');
+  cancelBtn.className = 'btn btn-ghost';
+  cancelBtn.textContent = 'Cancel';
+  cancelBtn.addEventListener('click', () => document.body.removeChild(backdrop));
+  actions.appendChild(cancelBtn);
+  modal.appendChild(actions);
+
+  backdrop.appendChild(modal);
+  backdrop.addEventListener('click', (e) => { if (e.target === backdrop) document.body.removeChild(backdrop); });
+
+  const onKey = (e) => { if (e.key === 'Escape') { document.body.removeChild(backdrop); document.removeEventListener('keydown', onKey); } };
+  document.addEventListener('keydown', onKey);
+
+  document.body.appendChild(backdrop);
 }
 
 // ── Project section ───────────────────────────────────────

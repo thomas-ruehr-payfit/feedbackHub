@@ -355,6 +355,22 @@ body.comment-active { background: #000; }
   margin: 20px 0 8px;
 }
 
+/* ── Move project picker ─────────────────────────────────── */
+.move-project-list {
+  display: flex; flex-direction: column; gap: 4px;
+  margin: 12px 0 20px;
+}
+.move-project-item {
+  display: flex; align-items: center;
+  padding: 10px 12px; border-radius: var(--radius);
+  border: 1px solid var(--border);
+  font-size: 14px; font-weight: 500; color: var(--text);
+  background: transparent; text-align: left; cursor: pointer;
+  transition: background .15s;
+}
+.move-project-item:hover:not(:disabled) { background: var(--bg); }
+.move-project-item.current { color: var(--text-muted); cursor: default; }
+
 /* ── Comment count badge ─────────────────────────────────── */
 .comment-count {
   font-size: 12px; color: var(--text-muted); white-space: nowrap; flex-shrink: 0;
