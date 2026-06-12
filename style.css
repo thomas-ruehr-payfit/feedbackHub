@@ -173,9 +173,13 @@ input, textarea { font: inherit; }
 }
 .toolbar.comment-active .btn-comment .comment-dot { background: #000; }
 
-.viewer-frame-wrap.comment-active {
-  outline: 3px solid #000;
-  outline-offset: -3px;
+.viewer-frame-wrap.comment-active::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 3px solid #000;
+  pointer-events: none;
+  z-index: 15;
 }
 
 .toolbar-path {
