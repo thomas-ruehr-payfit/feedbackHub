@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Viewer</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="env.js"></script>
+</head>
+<body class="viewer-body">
+  <div class="viewer-layout">
+    <div class="toolbar" id="toolbar">
+      <a href="index.html" class="toolbar-back">← All prototypes</a>
+      <span class="toolbar-title" id="toolbar-title">Loading…</span>
+      <span class="toolbar-path" id="toolbar-path">/</span>
+      <button class="btn btn-comment" id="btn-comment" aria-pressed="false">
+        <span class="comment-dot" aria-hidden="true"></span>
+        Comment
+      </button>
+    </div>
+
+    <div class="viewer-frame-wrap" id="frame-wrap">
+      <iframe id="prototype-frame" title="Prototype" allowfullscreen></iframe>
+      <div class="comment-overlay" id="comment-overlay"></div>
+    </div>
+  </div>
+
+  <div id="error-banner" class="error-banner hidden"></div>
+
+  <script type="module" src="viewer.js"></script>
+</body>
+</html>

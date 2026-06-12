@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prototypes</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="env.js"></script>
+</head>
+<body>
+  <div class="page">
+    <header class="dashboard-header">
+      <h1>Prototypes</h1>
+      <button class="btn btn-primary" id="btn-new">+ New prototype</button>
+    </header>
+
+    <div class="modal-backdrop hidden" id="modal-backdrop">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <h2 id="modal-title">New prototype</h2>
+        <form id="form-new">
+          <label>
+            Name
+            <input type="text" id="input-name" placeholder="My prototype" required autocomplete="off" />
+          </label>
+          <label>
+            URL
+            <input type="url" id="input-url" placeholder="https://…" required autocomplete="off" />
+          </label>
+          <p class="form-error hidden" id="form-error"></p>
+          <div class="form-actions">
+            <button type="button" class="btn btn-ghost" id="btn-cancel">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="btn-submit">Add prototype</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="error-banner" class="error-banner hidden"></div>
+
+    <main id="card-list" class="card-list">
+      <div class="loading" id="loading">Loading…</div>
+    </main>
+  </div>
+
+  <script type="module" src="dashboard.js"></script>
+</body>
+</html>
