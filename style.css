@@ -247,6 +247,7 @@ body.comment-active { background: #000; }
   z-index: 10;
 }
 .comment-overlay.active { pointer-events: all; cursor: cell; }
+.viewer-frame-wrap.comment-active #prototype-frame { pointer-events: none; }
 
 /* ── Comment pins ────────────────────────────────────────── */
 .pin {
