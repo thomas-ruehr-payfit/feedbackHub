@@ -252,7 +252,7 @@ function buildProjectSection(project, protos) {
 
   toggle.appendChild(toggleIcon);
   toggle.appendChild(nameSpan);
-  toggle.addEventListener('click', () => {
+  header.addEventListener('click', () => {
     const collapsed = section.classList.toggle('collapsed');
     toggleIcon.textContent = collapsed ? '+' : '−';
     toggle.setAttribute('aria-expanded', String(!collapsed));

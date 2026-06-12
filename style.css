@@ -317,20 +317,20 @@ body.comment-active { background: #000; }
 /* ── Project sections ────────────────────────────────────── */
 .project-section {
   background: var(--bg); border-radius: var(--radius-lg);
-  padding: 0 20px 20px; /* top padding moved into .project-toggle */
+  padding: 0; overflow: hidden;
   margin-bottom: 12px;
 }
 
 .project-header {
   display: flex; align-items: center;
-  padding: 0; margin-bottom: 0; border-bottom: none;
+  padding: 20px; cursor: pointer;
 }
 
 .project-toggle {
   display: flex; align-items: center; gap: 12px; flex: 1;
-  background: none; border: none; cursor: pointer;
+  background: none; border: none; cursor: inherit;
   font-size: 16px; font-weight: 700; color: var(--text);
-  padding: 20px 0 8px; text-align: left;
+  padding: 0; text-align: left;
 }
 
 .project-toggle-icon {
@@ -347,7 +347,7 @@ body.comment-active { background: #000; }
   font-size: 12px; color: var(--text-muted); padding: 4px 0;
 }
 
-.project-cards { display: flex; flex-direction: column; gap: 8px; margin-top: 0; }
+.project-cards { display: flex; flex-direction: column; gap: 8px; padding: 8px 20px 20px; }
 
 .ungrouped-label {
   font-size: 11px; font-weight: 600; color: var(--text-muted);
