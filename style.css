@@ -124,6 +124,7 @@ input, textarea { font: inherit; }
 .card-meta a { color: var(--accent); }
 .card-meta a:hover { text-decoration: underline; }
 .card-actions { display: flex; gap: 8px; flex-shrink: 0; }
+.card-right { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
 
 /* ── Modal ───────────────────────────────────────────────── */
 .modal-backdrop {
@@ -317,7 +318,7 @@ body.comment-active { background: #000; }
 }
 
 .project-toggle-icon {
-  font-size: 18px; font-weight: 400; color: var(--text-muted);
+  font-size: 22px; font-weight: 600; color: #4b4b4b;
   flex-shrink: 0; width: 20px; text-align: center; line-height: 1;
   font-family: ui-monospace, monospace;
 }
@@ -326,8 +327,8 @@ body.comment-active { background: #000; }
 
 .project-toggle-name { flex: 1; }
 
-.project-proto-count {
-  font-size: 12px; font-weight: 400; color: var(--text-muted);
+.project-empty {
+  font-size: 12px; color: var(--text-muted); padding: 4px 0;
 }
 
 .project-cards { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }

@@ -183,7 +183,7 @@ function buildCard(proto) {
   link.rel = 'noopener noreferrer';
   link.textContent = proto.url.replace(/^https?:\/\//, '').replace(/\/$/, '');
   meta.appendChild(link);
-  meta.append(' · ' + formatDate(proto.created_at));
+  // date intentionally omitted
   body.appendChild(meta);
 
   card.appendChild(body);
@@ -193,11 +193,14 @@ function buildCard(proto) {
   badge.textContent = count === 1 ? '1 comment' : `${count} comments`;
   card.appendChild(badge);
 
+  const cardRight = document.createElement('div');
+  cardRight.className = 'card-right';
+
   const btnOpen = document.createElement('a');
   btnOpen.className = 'btn btn-primary';
   btnOpen.href = `viewer.html?id=${proto.id}`;
   btnOpen.textContent = 'Open';
-  card.appendChild(btnOpen);
+  cardRight.appendChild(btnOpen);
 
   const dotMenu = buildDotMenu([
     {
@@ -220,7 +223,8 @@ function buildCard(proto) {
       },
     },
   ]);
-  card.appendChild(dotMenu);
+  cardRight.appendChild(dotMenu);
+  card.appendChild(cardRight);
 
   return card;
 }
@@ -246,13 +250,8 @@ function buildProjectSection(project, protos) {
   nameSpan.className = 'project-toggle-name';
   nameSpan.textContent = project.name;
 
-  const countSpan = document.createElement('span');
-  countSpan.className = 'project-proto-count';
-  countSpan.textContent = protos.length;
-
   toggle.appendChild(toggleIcon);
   toggle.appendChild(nameSpan);
-  toggle.appendChild(countSpan);
   toggle.addEventListener('click', () => {
     const collapsed = section.classList.toggle('collapsed');
     toggleIcon.textContent = collapsed ? '+' : '−';
@@ -291,7 +290,14 @@ function buildProjectSection(project, protos) {
 
   const cards = document.createElement('div');
   cards.className = 'project-cards';
-  protos.forEach(p => cards.appendChild(buildCard(p)));
+  if (protos.length === 0) {
+    const empty = document.createElement('p');
+    empty.className = 'project-empty';
+    empty.textContent = 'Empty';
+    cards.appendChild(empty);
+  } else {
+    protos.forEach(p => cards.appendChild(buildCard(p)));
+  }
 
   const addBtn = document.createElement('button');
   addBtn.className = 'project-add-proto-btn';
