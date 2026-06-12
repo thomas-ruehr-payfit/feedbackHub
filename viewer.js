@@ -114,6 +114,7 @@ function buildPin(label, xPct, yPct, id) {
     } else {
       closeOpenCard();
       openCardId = id;
+      overlay.classList.add('card-open');
       const comment = comments.find(c => c.id === id);
       if (comment) {
         overlay.querySelector(`.pin[data-id="${id}"]`)?.classList.add('active');
@@ -155,33 +156,21 @@ function buildExistingCard(comment, pinEl) {
   card.className = 'comment-card';
   card.dataset.id = comment.id;
 
-  const ts = new Date(comment.created_at).toLocaleDateString('en-GB', {
-    day: 'numeric', month: 'short', year: 'numeric',
-  });
-
   card.innerHTML = `
     <div class="card-header-row">
       <span class="card-author">${escHtml(comment.author)}</span>
-      <button class="card-close" aria-label="Close">×</button>
+      <button class="card-delete-icon" aria-label="Delete comment">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
+        </svg>
+      </button>
     </div>
     <p class="card-message">${escHtml(comment.message)}</p>
-    <div class="card-footer">
-      <span>${escHtml(comment.page_path)}</span>
-      <span>${ts}</span>
-    </div>
-    <div class="card-footer" style="margin-top:8px">
-      <button class="card-delete">Delete</button>
-    </div>
   `;
 
   placeCard(card, pinEl, comment.x_pct, comment.y_pct);
 
-  card.querySelector('.card-close').addEventListener('click', (e) => {
-    e.stopPropagation();
-    closeOpenCard();
-  });
-
-  card.querySelector('.card-delete').addEventListener('click', async (e) => {
+  card.querySelector('.card-delete-icon').addEventListener('click', async (e) => {
     e.stopPropagation();
     if (!confirm('Delete this comment?')) return;
     const { error } = await supabase.from('comments').delete().eq('id', comment.id);
@@ -262,8 +251,14 @@ function buildNewCard(xPct, yPct, tempPin) {
 
 // ── Overlay click → new comment ───────────────────────────
 overlay.addEventListener('click', (e) => {
+  // Close open card when clicking outside it (works even inside the iframe area)
+  if (openCardId && e.target === overlay) {
+    closeOpenCard();
+    return;
+  }
+
   if (!commentMode) return;
-  if (e.target !== overlay) return; // ignore clicks on pins/cards
+  if (e.target !== overlay) return;
 
   e.stopPropagation();
   closeOpenCard();
@@ -285,6 +280,7 @@ overlay.addEventListener('click', (e) => {
   overlay.appendChild(tempPin);
   overlay.appendChild(card);
   openCardId = 'new';
+  overlay.classList.add('card-open');
 
   // Focus name or message
   const authorInput = card.querySelector('#nc-author');
@@ -294,6 +290,7 @@ overlay.addEventListener('click', (e) => {
 // ── Close helpers ─────────────────────────────────────────
 function closeOpenCard() {
   openCardId = null;
+  overlay.classList.remove('card-open');
   overlay.querySelectorAll('.comment-card:not([data-temp])').forEach(el => el.remove());
   overlay.querySelectorAll('.pin.active').forEach(el => el.classList.remove('active'));
   removeTempPin();

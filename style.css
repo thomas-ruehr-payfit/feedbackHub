@@ -291,15 +291,16 @@ body.comment-active { background: #000; }
   margin-bottom: 6px;
 }
 .card-author { font-weight: 600; font-size: 13px; }
-.card-close {
-  color: var(--text-muted); font-size: 16px; line-height: 1;
-  padding: 2px 4px; border-radius: 4px;
+.card-message { font-size: 13px; line-height: 1.5; }
+.card-delete-icon {
+  color: var(--text-muted); background: none; border: none;
+  cursor: pointer; padding: 3px; border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  transition: color .15s, background .15s;
 }
-.card-close:hover { background: var(--bg); color: var(--text); }
-.card-message { font-size: 13px; margin-bottom: 8px; line-height: 1.5; }
-.card-footer { font-size: 11px; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; }
-.card-delete { color: var(--danger); font-size: 11px; background: none; border: none; cursor: pointer; padding: 0; }
-.card-delete:hover { text-decoration: underline; }
+.card-delete-icon:hover { color: var(--danger); background: #fef2f2; }
+
+.comment-overlay.card-open { pointer-events: all; cursor: default; }
 
 /* New comment form */
 .new-comment-form { display: flex; flex-direction: column; gap: 10px; }
