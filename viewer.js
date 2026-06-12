@@ -14,6 +14,7 @@ let prototypeName = '';
 let currentPath = '/';
 let comments = [];
 let openCardId = null; // null = none open, 'new' = temp pin open
+let scale = 1;
 
 if (!prototypeId) {
   showError('No prototype ID in URL. Go back and open a prototype from the dashboard.');
@@ -86,7 +87,7 @@ function renderPins() {
   overlay.querySelectorAll('.pin:not([data-temp]), .comment-card:not([data-temp])').forEach(el => el.remove());
 
   comments.forEach((c, i) => {
-    const pin = buildPin(i + 1, c.x_pct, c.y_pct, c.id);
+    const pin = buildPin(i + 1, c.x_pct, c.y_px, c.id);
     overlay.appendChild(pin);
     if (openCardId === c.id) {
       overlay.appendChild(buildExistingCard(c, pin));
@@ -99,13 +100,13 @@ function renderPins() {
   if (tempCard) overlay.appendChild(tempCard);
 }
 
-function buildPin(label, xPct, yPct, id) {
+function buildPin(label, xPct, yPx, id) {
   const pin = document.createElement('div');
   pin.className = 'pin';
   pin.textContent = label;
   pin.dataset.id = id;
   pin.style.left = xPct + '%';
-  pin.style.top = yPct + '%';
+  pin.style.top = (yPx * scale) + 'px';
 
   pin.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -127,7 +128,7 @@ function buildPin(label, xPct, yPct, id) {
 }
 
 // ── Smart card placement ──────────────────────────────────
-function placeCard(cardEl, pin, xPct, yPct) {
+function placeCard(cardEl, pin, xPct, yPx) {
   const ow = overlay.offsetWidth;
   const oh = overlay.offsetHeight;
   const cw = 260; // card width
@@ -135,7 +136,7 @@ function placeCard(cardEl, pin, xPct, yPct) {
   const pinPx = 12; // half pin size
 
   const pinX = (xPct / 100) * ow;
-  const pinY = (yPct / 100) * oh;
+  const pinY = yPx * scale;
 
   // Prefer right of pin; flip left if not enough space
   let left = pinX + pinPx + 8;
@@ -168,7 +169,7 @@ function buildExistingCard(comment, pinEl) {
     <p class="card-message">${escHtml(comment.message)}</p>
   `;
 
-  placeCard(card, pinEl, comment.x_pct, comment.y_pct);
+  placeCard(card, pinEl, comment.x_pct, comment.y_px);
 
   card.querySelector('.card-delete-icon').addEventListener('click', async (e) => {
     e.stopPropagation();
@@ -185,7 +186,7 @@ function buildExistingCard(comment, pinEl) {
   return card;
 }
 
-function buildNewCard(xPct, yPct, tempPin) {
+function buildNewCard(xPct, yPx, tempPin) {
   const card = document.createElement('div');
   card.className = 'comment-card';
   card.dataset.temp = '1';
@@ -201,7 +202,7 @@ function buildNewCard(xPct, yPct, tempPin) {
     </div>
   `;
 
-  placeCard(card, tempPin, xPct, yPct);
+  placeCard(card, tempPin, xPct, yPx);
 
   const authorInput = card.querySelector('#nc-author');
   // Restore last-used name
@@ -229,7 +230,7 @@ function buildNewCard(xPct, yPct, tempPin) {
       prototype_id: prototypeId,
       page_path: currentPath,
       x_pct: xPct,
-      y_pct: yPct,
+      y_px: yPx,
       author,
       message,
     });
@@ -266,17 +267,17 @@ overlay.addEventListener('click', (e) => {
 
   const rect = overlay.getBoundingClientRect();
   const xPct = ((e.clientX - rect.left) / rect.width) * 100;
-  const yPct = ((e.clientY - rect.top) / rect.height) * 100;
+  const yPx = (e.clientY - rect.top) / scale;
 
   const tempPin = document.createElement('div');
   tempPin.className = 'pin active';
   tempPin.textContent = comments.length + 1;
   tempPin.dataset.temp = '1';
   tempPin.style.left = xPct + '%';
-  tempPin.style.top = yPct + '%';
+  tempPin.style.top = (yPx * scale) + 'px';
   tempPin.addEventListener('click', (ev) => ev.stopPropagation());
 
-  const card = buildNewCard(xPct, yPct, tempPin);
+  const card = buildNewCard(xPct, yPx, tempPin);
   overlay.appendChild(tempPin);
   overlay.appendChild(card);
   openCardId = 'new';
@@ -309,8 +310,18 @@ document.addEventListener('click', (e) => {
   }
 });
 
-// ── Resize → re-render (positions are % so this is mostly cosmetic) ──
-window.addEventListener('resize', renderPins);
+// ── Fixed-width iframe scaling ────────────────────────────
+const DESIGN_WIDTH = 1440;
+const frameWrap = document.getElementById('frame-wrap');
+
+function updateIframeScale() {
+  scale = frameWrap.offsetWidth / DESIGN_WIDTH;
+  frame.style.transform = `scale(${scale})`;
+  frame.style.height = Math.round(frameWrap.offsetHeight / scale) + 'px';
+}
+
+window.addEventListener('resize', () => { updateIframeScale(); renderPins(); });
+updateIframeScale();
 
 // ── iframe load → path tracking (full-page navigations) ──
 frame.addEventListener('load', async () => {

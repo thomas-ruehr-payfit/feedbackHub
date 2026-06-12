@@ -238,7 +238,9 @@ body.comment-active { background: #000; }
   z-index: 15;
 }
 #prototype-frame {
-  position: absolute; inset: 0; width: 100%; height: 100%;
+  position: absolute; top: 0; left: 0;
+  width: 1440px;
+  transform-origin: top left;
   border: none;
 }
 .comment-overlay {
