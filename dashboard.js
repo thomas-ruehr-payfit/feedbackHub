@@ -286,18 +286,18 @@ function buildProjectSection(project, protos) {
   ]);
   header.appendChild(dotMenu);
 
+  if (protos.length === 0) {
+    const emptyLabel = document.createElement('span');
+    emptyLabel.className = 'project-empty-inline';
+    emptyLabel.textContent = 'Empty';
+    header.appendChild(emptyLabel);
+  }
+
   section.appendChild(header);
 
   const cards = document.createElement('div');
   cards.className = 'project-cards';
-  if (protos.length === 0) {
-    const empty = document.createElement('p');
-    empty.className = 'project-empty';
-    empty.textContent = 'Empty';
-    cards.appendChild(empty);
-  } else {
-    protos.forEach(p => cards.appendChild(buildCard(p)));
-  }
+  protos.forEach(p => cards.appendChild(buildCard(p)));
 
   const addBtn = document.createElement('button');
   addBtn.className = 'project-add-proto-btn';

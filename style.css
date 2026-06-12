@@ -343,8 +343,8 @@ body.comment-active { background: #000; }
 
 .project-toggle-name { flex: 1; }
 
-.project-empty {
-  font-size: 12px; color: var(--text-muted); padding: 4px 0;
+.project-empty-inline {
+  font-size: 12px; color: var(--text-muted); margin-left: 8px;
 }
 
 .project-cards { display: flex; flex-direction: column; gap: 8px; padding: 8px 20px 20px; }
