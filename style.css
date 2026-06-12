@@ -97,14 +97,13 @@ input, textarea { font: inherit; }
 .app-badge {
   position: relative;
   display: inline-block;
-  width: 20px; height: 20px; border-radius: 50%;
+  width: 19px; height: 19px; border-radius: 50%;
   background: #4b4b4b;
   flex-shrink: 0; margin-top: -3px; margin-left: 2px;
 }
 .app-badge > span {
   position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
+  top: 9px; left: 9px;
   color: #fff; font-size: 11px; font-weight: 700; line-height: 1;
 }
 .header-actions { display: flex; gap: 8px; }
