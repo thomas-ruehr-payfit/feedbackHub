@@ -248,7 +248,7 @@ body.comment-active { background: #000; }
 }
 .comment-overlay.active {
   pointer-events: all;
-  cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><line x1='20' y1='2' x2='20' y2='38' stroke='white' stroke-width='4' stroke-linecap='round'/><line x1='2' y1='20' x2='38' y2='20' stroke='white' stroke-width='4' stroke-linecap='round'/><line x1='20' y1='2' x2='20' y2='38' stroke='black' stroke-width='2' stroke-linecap='round'/><line x1='2' y1='20' x2='38' y2='20' stroke='black' stroke-width='2' stroke-linecap='round'/></svg>") 20 20, cell;
+  cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><line x1='16' y1='2' x2='16' y2='30' stroke='white' stroke-width='5' stroke-linecap='round'/><line x1='2' y1='16' x2='30' y2='16' stroke='white' stroke-width='5' stroke-linecap='round'/><line x1='16' y1='2' x2='16' y2='30' stroke='black' stroke-width='2.5' stroke-linecap='round'/><line x1='2' y1='16' x2='30' y2='16' stroke='black' stroke-width='2.5' stroke-linecap='round'/></svg>") 16 16, cell;
 }
 .viewer-frame-wrap.comment-active #prototype-frame { pointer-events: none; }
 
