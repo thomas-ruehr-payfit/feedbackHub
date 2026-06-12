@@ -8,12 +8,12 @@ const modalBackdrop   = document.getElementById('modal-backdrop');
 const formNew         = document.getElementById('form-new');
 const inputName       = document.getElementById('input-name');
 const inputUrl        = document.getElementById('input-url');
-const inputProject    = document.getElementById('input-project');
 const formError       = document.getElementById('form-error');
-const btnNew          = document.getElementById('btn-new');
 const btnCancel       = document.getElementById('btn-cancel');
 const btnSubmit       = document.getElementById('btn-submit');
 const btnNewProject   = document.getElementById('btn-new-project');
+const btnHowto        = document.getElementById('btn-howto');
+const howtoModal      = document.getElementById('howto-modal-backdrop');
 const projectModal    = document.getElementById('project-modal-backdrop');
 const formProject     = document.getElementById('form-project');
 const projectInput    = document.getElementById('project-input-name');
@@ -22,9 +22,10 @@ const btnProjectCancel = document.getElementById('btn-project-cancel');
 const btnProjectSubmit = document.getElementById('btn-project-submit');
 
 // ── State ─────────────────────────────────────────────────
-let projects      = [];
-let prototypes    = [];
-let commentCounts = {};
+let projects        = [];
+let prototypes      = [];
+let commentCounts   = {};
+let currentProjectId = null;
 
 // ── Helpers ───────────────────────────────────────────────
 function showError(msg) {
@@ -45,25 +46,23 @@ function escHtml(str) {
 }
 
 // ── Prototype modal ───────────────────────────────────────
-function openModal() {
+function openModal(projectId) {
+  currentProjectId = projectId;
   formNew.reset();
   formError.classList.add('hidden');
-  inputProject.innerHTML = '<option value="">No project</option>';
-  projects.forEach(p => {
-    const opt = document.createElement('option');
-    opt.value = p.id;
-    opt.textContent = p.name;
-    inputProject.appendChild(opt);
-  });
   modalBackdrop.classList.remove('hidden');
   inputName.focus();
 }
 
 function closeModal() { modalBackdrop.classList.add('hidden'); }
 
-btnNew.addEventListener('click', openModal);
 btnCancel.addEventListener('click', closeModal);
 modalBackdrop.addEventListener('click', (e) => { if (e.target === modalBackdrop) closeModal(); });
+
+// ── How to use modal ──────────────────────────────────────
+btnHowto.addEventListener('click', () => howtoModal.classList.remove('hidden'));
+document.getElementById('btn-howto-close').addEventListener('click', () => howtoModal.classList.add('hidden'));
+howtoModal.addEventListener('click', (e) => { if (e.target === howtoModal) howtoModal.classList.add('hidden'); });
 
 // ── Project modal ─────────────────────────────────────────
 function openProjectModal() {
@@ -80,7 +79,11 @@ btnProjectCancel.addEventListener('click', closeProjectModal);
 projectModal.addEventListener('click', (e) => { if (e.target === projectModal) closeProjectModal(); });
 
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') { closeModal(); closeProjectModal(); }
+  if (e.key === 'Escape') {
+    closeModal();
+    closeProjectModal();
+    howtoModal.classList.add('hidden');
+  }
 });
 
 // ── 3-dot menu ────────────────────────────────────────────
@@ -294,6 +297,13 @@ function buildProjectSection(project, protos) {
   const cards = document.createElement('div');
   cards.className = 'project-cards';
   protos.forEach(p => cards.appendChild(buildCard(p)));
+
+  const addBtn = document.createElement('button');
+  addBtn.className = 'project-add-proto-btn';
+  addBtn.textContent = '+ Add prototype';
+  addBtn.addEventListener('click', () => openModal(project.id));
+  cards.appendChild(addBtn);
+
   section.appendChild(cards);
 
   return section;
@@ -368,7 +378,7 @@ formNew.addEventListener('submit', async (e) => {
 
   const name      = inputName.value.trim();
   const url       = inputUrl.value.trim();
-  const projectId = inputProject.value || null;
+  const projectId = currentProjectId;
 
   if (!url.startsWith('http://') && !url.startsWith('https://')) {
     formError.textContent = 'URL must start with http:// or https://';
