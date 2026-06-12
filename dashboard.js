@@ -232,7 +232,7 @@ function buildCard(proto) {
 // ── Project section ───────────────────────────────────────
 function buildProjectSection(project, protos) {
   const section = document.createElement('div');
-  section.className = 'project-section';
+  section.className = 'project-section collapsed';
   section.dataset.id = project.id;
 
   const header = document.createElement('div');
@@ -240,11 +240,11 @@ function buildProjectSection(project, protos) {
 
   const toggle = document.createElement('button');
   toggle.className = 'project-toggle';
-  toggle.setAttribute('aria-expanded', 'true');
+  toggle.setAttribute('aria-expanded', 'false');
 
   const toggleIcon = document.createElement('span');
   toggleIcon.className = 'project-toggle-icon';
-  toggleIcon.textContent = '−';
+  toggleIcon.textContent = '+';
 
   const nameSpan = document.createElement('span');
   nameSpan.className = 'project-toggle-name';
