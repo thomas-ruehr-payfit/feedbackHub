@@ -11,9 +11,13 @@
   <div class="page">
     <header class="dashboard-header">
       <h1>Prototypes</h1>
-      <button class="btn btn-primary" id="btn-new">+ New prototype</button>
+      <div class="header-actions">
+        <button class="btn btn-ghost" id="btn-new-project">+ New project</button>
+        <button class="btn btn-primary" id="btn-new">+ New prototype</button>
+      </div>
     </header>
 
+    <!-- New prototype modal -->
     <div class="modal-backdrop hidden" id="modal-backdrop">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <h2 id="modal-title">New prototype</h2>
@@ -26,10 +30,32 @@
             URL
             <input type="url" id="input-url" placeholder="https://…" required autocomplete="off" />
           </label>
+          <label>
+            Project
+            <select id="input-project"></select>
+          </label>
           <p class="form-error hidden" id="form-error"></p>
           <div class="form-actions">
             <button type="button" class="btn btn-ghost" id="btn-cancel">Cancel</button>
             <button type="submit" class="btn btn-primary" id="btn-submit">Add prototype</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- New project modal -->
+    <div class="modal-backdrop hidden" id="project-modal-backdrop">
+      <div class="modal" role="dialog" aria-modal="true">
+        <h2>New project</h2>
+        <form id="form-project">
+          <label>
+            Name
+            <input type="text" id="project-input-name" placeholder="Project name" required autocomplete="off" />
+          </label>
+          <p class="form-error hidden" id="project-form-error"></p>
+          <div class="form-actions">
+            <button type="button" class="btn btn-ghost" id="btn-project-cancel">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="btn-project-submit">Create</button>
           </div>
         </form>
       </div>
