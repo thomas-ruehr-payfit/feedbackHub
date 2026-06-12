@@ -284,14 +284,14 @@ function buildProjectSection(project, protos) {
       },
     },
   ]);
-  header.appendChild(dotMenu);
-
   if (protos.length === 0) {
     const emptyLabel = document.createElement('span');
     emptyLabel.className = 'project-empty-inline';
     emptyLabel.textContent = 'Empty';
     header.appendChild(emptyLabel);
   }
+
+  header.appendChild(dotMenu);
 
   section.appendChild(header);
 
